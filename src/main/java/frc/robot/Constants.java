@@ -13,7 +13,22 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
+  }
+
+  public static class DrivetrainConstants {
+    public static final int kLeftMotorID = 1;
+    public static final int kRightMotorID = 2;
+
+
+    //Hardware Mode
+    public static final HardwareMode ROBOT_HARDWARE = HardwareMode.REV_SPARK;
+    public enum HardwareMode {
+      REV_SPARK,
+      CTRE_TALONFX,
+      PWM_BRUSHED //Please tell me it isn't this one 🥲
+    }
   }
 }
