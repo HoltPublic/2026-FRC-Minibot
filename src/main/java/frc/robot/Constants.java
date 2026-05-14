@@ -18,17 +18,38 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  /**
+   * Constants for the Drivetrain
+   */
   public static class DrivetrainConstants {
-    public static final int kLeftMotorID = 1;
-    public static final int kRightMotorID = 2;
+    //ID Assignments
+    public static final int kLeftMotorID = 21;
+    public static final int kRightMotorID = 20;
 
-
-    //Hardware Mode
-    public static final HardwareMode ROBOT_HARDWARE = HardwareMode.REV_SPARK;
+    //Robot Profile Configurations
+    public static final HardwareMode ROBOT_HARDWARE = HardwareMode.CTRE_TALONFX;
+    public static final DriveChoices DRIVE_MODE = DriveChoices.ARCADE;
+    public static final ControllerType CONTROLLER_MODE = ControllerType.LOGITECH_FLIGHTSTICK;
+    /**
+     * Available Hardware Configuration Profiles for the Drivetrain Motors
+     */
     public enum HardwareMode {
       REV_SPARK,
       CTRE_TALONFX,
       PWM_BRUSHED //Please tell me it isn't this one 🥲
+    }
+    /**
+     * Available Driver Control Methods for the Drivetrain
+     */
+    public enum DriveChoices {
+      ARCADE,
+      TANK
+    }
+
+    public enum ControllerType {
+      XBOX,
+      PS5,
+      LOGITECH_FLIGHTSTICK
     }
   }
 }

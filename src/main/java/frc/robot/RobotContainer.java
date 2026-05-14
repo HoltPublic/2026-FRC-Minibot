@@ -4,10 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.CommandPS5Controller;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.Drivetrain.DriveCommand;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants.DrivetrainConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -18,14 +23,39 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  //Subsystem Instantiation
+  private final Drivetrain m_drivetrain = new Drivetrain();
+
+
+  private final CommandXboxController m_xboxController =
+          new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandPS5Controller m_ps5Controller =
+          new CommandPS5Controller(OperatorConstants.kDriverControllerPort);
+  private final CommandGenericHID m_flightStick =
+          new CommandGenericHID(OperatorConstants.kDriverControllerPort);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    configureDefaultCommands();
     configureBindings();
+  }
+
+  private void configureDefaultCommands() {
+    switch (DrivetrainConstants.CONTROLLER_MODE) {
+      case PS5:
+        m_drivetrain.setDefaultCommand(new DriveCommand(m_drivetrain, () -> m_ps5Controller.getLeftY(), () -> m_ps5Controller.getRightX(), () -> m_ps5Controller.getRightY()));
+        break;
+      case LOGITECH_FLIGHTSTICK:
+        m_drivetrain.setDefaultCommand(new DriveCommand(m_drivetrain, () -> m_flightStick.getRawAxis(1), () -> m_flightStick.getRawAxis(0), () -> m_flightStick.getRawAxis(2)));
+        break;
+      case XBOX:
+      default:
+        m_drivetrain.setDefaultCommand(new DriveCommand(m_drivetrain, () -> m_xboxController.getLeftY(), () -> m_xboxController.getRightX(), () -> m_xboxController.getRightY()));
+        break;
+    }
   }
 
   /**
@@ -47,6 +77,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return null; //TODO: Replace this with something else.
+    return null; //TODO: Replace this with something else once we have AUTON.
   }
 }
